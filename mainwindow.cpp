@@ -1,14 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QString>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    init();
-
     connect(ui->treeWidget, SIGNAL(itemChanged(QTreeWidgetItem*, int)), this, SLOT(onTreeItemChanged(QTreeWidgetItem*)));
+    init();
 }
 
 MainWindow::~MainWindow()
@@ -20,63 +20,127 @@ void MainWindow::init()
 {
     ui->treeWidget->clear();    //初始化树形控件
     ui->treeWidget->setHeaderHidden(true);  //隐藏表头
-
+     QFont serifFont("Times", 14);
+    ui->treeWidget->setFont(serifFont);
 
     //定义第一个树形组 爷爷项
-    QTreeWidgetItem* group1 = new QTreeWidgetItem(ui->treeWidget);
-    group1->setText(0, QStringLiteral("设备使用权限"));    //树形控件显示的文本信息
-    //group1->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);   //设置树形控件子项的属性
+    QTreeWidgetItem* group = new QTreeWidgetItem(ui->treeWidget);
+    group->setText(0, "设备使用权限");    //树形控件显示的文本信息
+    //group->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);   //设置树形控件子项的属性
     //Qt::ItemIsUserCheckable | Qt::ItemIsSelectable 两个都是方框是否可选状态，暂时没用
     //Qt::ItemIsEnabled 使能，不使能会显示为灰色，可以在查看的时候而非添加的时候用
     //Qt::ItemIsEditable 文字可编辑与否，我们都不让编辑
-    group1->setFlags( Qt::ItemIsUserCheckable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);   //设置树形控件子项的属性
-    group1->setCheckState(0, Qt::Unchecked); //初始状态没有被选中
+    group->setFlags( Qt::ItemIsUserCheckable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);   //设置树形控件子项的属性
+    group->setCheckState(0, Qt::Unchecked); //初始状态没有被选中
     //第一组子项
-    QTreeWidgetItem* subItem11 = new QTreeWidgetItem(group1);
-    subItem11->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
-    subItem11->setText(0, "二级");  //设置子项显示的文本
-    subItem11->setCheckState(0, Qt::Unchecked); //设置子选项的显示格式和状态
+    QTreeWidgetItem* group1 = new QTreeWidgetItem(group);
+    group1->setFlags(Qt::ItemIsUserCheckable|Qt::ItemIsEnabled|Qt::ItemIsSelectable);
+    group1->setText(0, "设备运行");  //设置子项显示的文本
+    group1->setCheckState(0, Qt::Checked); //设置子选项的显示格式和状态
 
-    QTreeWidgetItem* subItem12 = new QTreeWidgetItem(group1);
-    subItem12->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
-    subItem12->setText(0, "二级");
-    subItem12->setCheckState(0, Qt::Unchecked);
-
-    QTreeWidgetItem* subItem13 = new QTreeWidgetItem(group1);
-    subItem13->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
-    subItem13->setText(0, "二级");
-    subItem13->setCheckState(0, Qt::Unchecked);
-
-
-    //父亲项
-    QTreeWidgetItem* group2 = new QTreeWidgetItem(subItem13);
-    group2->setText(0, "三级");
+    QTreeWidgetItem* group2 = new QTreeWidgetItem(group);
     group2->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
+    group2->setText(0, "设置");
     group2->setCheckState(0, Qt::Unchecked);
 
-    QTreeWidgetItem* group3 = new QTreeWidgetItem(subItem13);
-    group3->setText(0, "三级");
-    group3->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-    group3->setCheckState(0, Qt::Unchecked);
+    //父亲项
+    QTreeWidgetItem* group21 = new QTreeWidgetItem(group2);
+    group21->setText(0, "模板管理");
+    group21->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
+    group21->setCheckState(0, Qt::Unchecked);
 
-    //孙子项
-    QTreeWidgetItem* subItem21 = new QTreeWidgetItem(group2);   //指定子项属于哪一个父项
-    subItem21->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
-    subItem21->setText(0, "四级");
-    subItem21->setCheckState(0, Qt::Unchecked);
+    QTreeWidgetItem* group22 = new QTreeWidgetItem(group2);
+    group22->setText(0, "相机参数");
+    group22->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+    group22->setCheckState(0, Qt::Unchecked);
 
-    QTreeWidgetItem* subItem22 = new QTreeWidgetItem(group2);
-    subItem22->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
-    subItem22->setText(0, "四级");
-    subItem22->setCheckState(0, Qt::Unchecked);
+    QTreeWidgetItem* group23 = new QTreeWidgetItem(group2);
+    group23->setText(0, "PLC设置");
+    group23->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
+    group23->setCheckState(0, Qt::Unchecked);
 
-    QTreeWidgetItem* subItem23 = new QTreeWidgetItem(group2);
-    subItem23->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
-    subItem23->setText(0, "四级");
-    subItem23->setCheckState(0, Qt::Unchecked);
+    QTreeWidgetItem* group24 = new QTreeWidgetItem(group2);
+    group24->setText(0, "用户管理");
+    group24->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+    group24->setCheckState(0, Qt::Unchecked);
 
-    ui->treeWidget->expandAll();  //展开树
+//孙子项1
+    QTreeWidgetItem* group211 = new QTreeWidgetItem(group21);   //指定子项属于哪一个父项
+    group211->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
+    group211->setText(0, "保存/应用");
+    group211->setCheckState(0, Qt::Unchecked);
 
+    QTreeWidgetItem* group212 = new QTreeWidgetItem(group21);
+    group212->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
+    group212->setText(0, "添加");
+    group212->setCheckState(0, Qt::Unchecked);
+
+    QTreeWidgetItem* group213 = new QTreeWidgetItem(group21);
+    group213->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
+    group213->setText(0, "删除");
+    group213->setCheckState(0, Qt::Unchecked);
+
+    QTreeWidgetItem* group214 = new QTreeWidgetItem(group21);
+    group214->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
+    group214->setText(0, "修改名称");
+    group214->setCheckState(0, Qt::Unchecked);
+
+    QTreeWidgetItem* group215 = new QTreeWidgetItem(group21);
+    group215->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
+    group215->setText(0, "算法设置");
+    group215->setCheckState(0, Qt::Unchecked);
+//孙子项2
+    QTreeWidgetItem* group221 = new QTreeWidgetItem(group22);
+    group221->setText(0, "相机调试");
+    group221->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+    group221->setCheckState(0, Qt::Unchecked);
+
+    QTreeWidgetItem* group222 = new QTreeWidgetItem(group22);
+    group222->setText(0, "采集测试");
+    group222->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+    group222->setCheckState(0, Qt::Unchecked);
+
+//孙子项3
+    QTreeWidgetItem* group231 = new QTreeWidgetItem(group23);
+    group231->setText(0, "参数读取");
+    group231->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
+    group231->setCheckState(0, Qt::Unchecked);
+
+    QTreeWidgetItem* group232 = new QTreeWidgetItem(group23);
+    group232->setText(0, "参数写入");
+    group232->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
+    group232->setCheckState(0, Qt::Unchecked);
+
+    QTreeWidgetItem* group233 = new QTreeWidgetItem(group23);
+    group233->setText(0, "采集");
+    group233->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
+    group233->setCheckState(0, Qt::Unchecked);
+
+    QTreeWidgetItem* group234 = new QTreeWidgetItem(group23);
+    group234->setText(0, "控制测试");
+    group234->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable );
+    group234->setCheckState(0, Qt::Unchecked);
+
+    //孙子项4
+    QTreeWidgetItem* group241 = new QTreeWidgetItem(group24);
+    group241->setText(0, "添加");
+    group241->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+    group241->setCheckState(0, Qt::Unchecked);
+
+    QTreeWidgetItem* group242 = new QTreeWidgetItem(group24);
+    group242->setText(0, "切换用户");
+    group242->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+    group242->setCheckState(0, Qt::Unchecked);
+
+    QTreeWidgetItem* group243 = new QTreeWidgetItem(group24);
+    group243->setText(0, "删除");
+    group243->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+    group243->setCheckState(0, Qt::Unchecked);
+
+
+
+    //ui->treeWidget->expandAll();  //展开树
+    ui->treeWidget->expandToDepth(1);
 }
 
 void MainWindow::updateParentItem(QTreeWidgetItem* item)
